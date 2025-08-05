@@ -1,0 +1,17 @@
+[
+  {
+    "Name": "New Profile",
+    "Projects": [
+      {
+        "Path": "hahntaskmanager.client\\hahntaskmanager.client.esproj",
+        "Action": "Start",
+        "DebugTarget": "ng serve"
+      },
+      {
+        "Path": "HahnTaskManager.Api\\HahnTaskManager.Api.csproj",
+        "Action": "Start",
+        "DebugTarget": "https"
+      }
+    ]
+  }
+]

@@ -1,0 +1,131 @@
+<!-- Filter Bar -->
+<form [formGroup]="filterForm" class="bg-white px-6 py-3 border-b">
+  <!-- Quick Filters Row -->
+  <div class="flex items-center justify-between mb-3">
+    <div class="flex items-center space-x-2">
+      <button 
+        type="button"
+        class="px-3 py-1 text-sm border rounded-md hover:bg-gray-50 flex items-center space-x-1"
+        (click)="onAdvancedFilterToggle()">
+        <i class="fas fa-filter text-gray-600"></i>
+        <span>{{showAdvancedFilters ? 'Hide' : 'Advanced'}} Filters</span>
+      </button>
+      <button 
+        type="button"
+        class="px-3 py-1 text-sm border rounded-md hover:bg-gray-50 flex items-center space-x-1"
+        (click)="onClearFilters()">
+        <i class="fas fa-times text-gray-600"></i>
+        <span>Clear</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Search Bar -->
+  <div class="flex items-center space-x-4 mb-3">
+    <div class="flex-1">
+      <div class="relative">
+        <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+        <input 
+          type="text" 
+          formControlName="searchTerm"
+          placeholder="Search by title or description..."
+          class="w-full pl-10 pr-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+      </div>
+    </div>
+  </div>
+
+  <!-- Advanced Filters -->
+  <div *ngIf="showAdvancedFilters" class="border-t pt-3" style="background-color: #f0f0f0; padding: 10px; margin: 10px 0;">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <!-- Status Filter -->
+      <div class="form-group">
+        <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
+        <select formControlName="status" class="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <option value="">All Statuses</option>
+          <option *ngFor="let status of statusOptions" [value]="status.value">{{status.label}}</option>
+        </select>
+      </div>
+
+      <!-- Priority Filter -->
+      <div class="form-group">
+        <label class="block text-sm font-medium text-gray-700 mb-1">Priority</label>
+        <select formControlName="priority" class="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <option value="">All Priorities</option>
+          <option *ngFor="let priority of priorityOptions" [value]="priority.value">{{priority.label}}</option>
+        </select>
+      </div>
+
+      <!-- Assignee Filter -->
+      <div class="form-group">
+        <label class="block text-sm font-medium text-gray-700 mb-1">Assigned To</label>
+        <select formControlName="assigneeId" class="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <option value="">All Users</option>
+          <option *ngFor="let user of users" [value]="user.id">{{user.firstName}} {{user.lastName}}</option>
+        </select>
+      </div>
+
+      <!-- Sort By -->
+      <div class="form-group">
+        <label class="block text-sm font-medium text-gray-700 mb-1">Sort By</label>
+        <select formControlName="sortBy" class="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <option *ngFor="let prop of propertyOptions" [value]="prop.value">{{prop.label}}</option>
+        </select>
+      </div>
+
+      <!-- Sort Direction -->
+      <div class="form-group">
+        <label class="block text-sm font-medium text-gray-700 mb-1">Sort Direction</label>
+        <select formControlName="sortDirection" class="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <option *ngFor="let direction of sortDirections" [value]="direction.value">{{direction.label}}</option>
+        </select>
+      </div>
+
+      <!-- Due Date Range -->
+      <div class="form-group">
+        <label class="block text-sm font-medium text-gray-700 mb-1">Due Date From</label>
+        <input 
+          type="date" 
+          formControlName="dueDateFrom"
+          class="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+      </div>
+
+      <div class="form-group">
+        <label class="block text-sm font-medium text-gray-700 mb-1">Due Date To</label>
+        <input 
+          type="date" 
+          formControlName="dueDateTo"
+          class="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+      </div>
+    </div>
+  </div>
+
+  <!-- Active Filters Display -->
+  <div *ngIf="filterForm.value.searchTerm || filterForm.value.status || filterForm.value.priority || filterForm.value.assigneeId || filterForm.value.dueDateFrom || filterForm.value.dueDateTo" 
+       class="border-t pt-3 mt-3">
+    <div class="flex items-center space-x-2">
+      <span class="text-sm font-medium text-gray-700">Active Filters:</span>
+      <div class="flex flex-wrap gap-2">
+        <span *ngIf="filterForm.value.searchTerm" 
+              class="px-2 py-1 text-xs bg-blue-100 text-blue-800 rounded-full">
+          Search: "{{filterForm.value.searchTerm}}"
+        </span>
+        <span *ngIf="filterForm.value.status" 
+              class="px-2 py-1 text-xs bg-green-100 text-green-800 rounded-full">
+          Status: {{getStatusLabel(filterForm.value.status)}}
+        </span>
+        <span *ngIf="filterForm.value.priority" 
+              class="px-2 py-1 text-xs bg-yellow-100 text-yellow-800 rounded-full">
+          Priority: {{getPriorityLabel(filterForm.value.priority)}}
+        </span>
+        <span *ngIf="filterForm.value.assigneeId" 
+              class="px-2 py-1 text-xs bg-purple-100 text-purple-800 rounded-full">
+          Assigned: {{getAssigneeName(filterForm.value.assigneeId)}}
+        </span>
+        <span *ngIf="filterForm.value.dueDateFrom || filterForm.value.dueDateTo" 
+              class="px-2 py-1 text-xs bg-orange-100 text-orange-800 rounded-full">
+          Due Date: {{filterForm.value.dueDateFrom || 'Any'}} - {{filterForm.value.dueDateTo || 'Any'}}
+        </span>
+      </div>
+    </div>
+  </div>
+</form>

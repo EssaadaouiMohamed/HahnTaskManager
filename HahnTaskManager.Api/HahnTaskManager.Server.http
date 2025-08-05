@@ -1,0 +1,6 @@
+@HahnTaskManager.Server_HostAddress = http://localhost:5100
+
+GET {{HahnTaskManager.Server_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

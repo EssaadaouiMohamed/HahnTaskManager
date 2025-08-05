@@ -1,0 +1,17 @@
+<!-- Project Header -->
+<div class="bg-white border-b px-6 py-4">
+  <div class="flex items-center justify-between">
+    <div>
+      <h1 class="text-xl font-semibold">{{project.name}}</h1>
+      <p class="text-sm text-gray-500">Project ID: {{project.id}}</p>
+    </div>
+    <div class="flex items-center space-x-3">
+      <button 
+        class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 flex items-center"
+        (click)="onNewWorkItem()">
+        <i class="fas fa-plus mr-2"></i>
+        <span>New Work Item</span>
+      </button>
+    </div>
+  </div>
+</div>

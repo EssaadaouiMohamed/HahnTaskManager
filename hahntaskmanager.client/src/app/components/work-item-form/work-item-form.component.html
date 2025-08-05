@@ -1,0 +1,90 @@
+<!-- Modal Backdrop -->
+<div class="modal-backdrop" *ngIf="isOpen" (click)="cancel()"></div>
+
+<!-- Modal Container -->
+<div class="modal-container" *ngIf="isOpen">
+  <div class="modal-header">
+    <h2>{{isEditMode ? 'Edit Task' : 'Create Task'}}</h2>
+    <button class="close-btn" (click)="close()">&times;</button>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="submit()" class="modal-form">
+    <!-- Title -->
+    <div class="form-group">
+      <label for="title">Title</label>
+      <input id="title" type="text" formControlName="title" required>
+      <div *ngIf="form.get('title')?.invalid && form.get('title')?.touched" class="error-message">
+        Title is required
+      </div>
+    </div>
+
+    <!-- Description -->
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea id="description" formControlName="description" rows="3"></textarea>
+    </div>
+
+    <!-- Due Date -->
+    <div class="form-group">
+      <label for="dueDate">Due Date</label>
+      <input id="dueDate" type="date" formControlName="dueDate" required>
+      <div *ngIf="form.get('dueDate')?.invalid && form.get('dueDate')?.touched" class="error-message">
+        Due date is required
+      </div>
+    </div>
+
+    <!-- Priority & Status -->
+    <div class="form-row">
+      <div class="form-group">
+        <label for="priority">Priority</label>
+        <select id="priority" formControlName="priority">
+          <option *ngFor="let p of priorities" [value]="p.value">{{p.label}}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="status">Status</label>
+        <select id="status" formControlName="status">
+          <option *ngFor="let s of statuses" [value]="s.value">{{s.label}}</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Assignee -->
+    <div class="form-group">
+      <label for="assignee">Assignee</label>
+      <select id="assignee" formControlName="assigneeId">
+        <option value="">Unassigned</option>
+        <option *ngFor="let user of users" [value]="user.id">{{user.firstName}} {{user.lastName}}</option>
+      </select>
+    </div>
+
+    <!-- Comments Section -->
+    <div class="form-group">
+      <label>Comments</label>
+      <div class="comments-list">
+        <div *ngFor="let comment of comments; let i = index" class="comment-item">
+          <span>{{comment.text}}</span>
+          <button type="button" class="remove-comment" (click)="removeComment(i)">
+            &times;
+          </button>
+        </div>
+      </div>
+      <div class="add-comment">
+        <input #commentInput type="text" placeholder="Add new comment">
+        <button type="button" class="add-comment-btn"
+                (click)="addComment(commentInput.value); commentInput.value=''">
+          Add
+        </button>
+      </div>
+    </div>
+
+    <!-- Form Actions -->
+    <div class="form-actions">
+      <button type="submit" [disabled]="form.invalid" class="btn-primary">
+        {{isEditMode ? 'Update' : 'Create'}}
+      </button>
+      <button type="button" class="btn-secondary" (click)="cancel()">Cancel</button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,18 @@
+<div class="bg-white border-b px-6">
+  <div class="flex space-x-6">
+    <button 
+      class="nav-tab py-3 px-1"
+      [class.active]="currentView === 'grid'"
+      (click)="switchView('grid')">
+      <i class="fas fa-table mr-2"></i>
+      Grid View
+    </button>
+    <button 
+      class="nav-tab py-3 px-1"
+      [class.active]="currentView === 'board'"
+      (click)="switchView('board')">
+      <i class="fas fa-columns mr-2"></i>
+      Board View
+    </button>
+  </div>
+</div>
