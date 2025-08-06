@@ -39,7 +39,7 @@ You can run this application either locally on your machine or using Docker.
     cd HahnTaskManager.Api
     dotnet run
     ```
-    The API will be available at `https://localhost:5001`.
+    The API will be available at `http://localhost:5001`.
 
 3.  **Run the frontend application:**
     ```bash
