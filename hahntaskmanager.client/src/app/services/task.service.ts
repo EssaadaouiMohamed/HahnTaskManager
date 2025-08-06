@@ -19,7 +19,7 @@ import { PaginatedResult } from '../models/paginated-result'; // import Paginate
   providedIn: 'root'
 })
 export class WorkItemService {
-  private baseUrl = 'https://localhost:5001';
+  private baseUrl = 'http://localhost:5000';
   private apiUrl = `${this.baseUrl}/api/WorkItems`;
 
   private workItemsSubject = new BehaviorSubject<WorkItemDto[]>([]);

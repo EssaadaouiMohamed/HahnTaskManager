@@ -21,6 +21,14 @@
 **/obj
 **/secrets.dev.yaml
 **/values.dev.yaml
+**/dist
+**/.angular
+**/.DS_Store
+**/coverage
+**/.nyc_output
+**/.npm
+**/.eslintcache
+**/.angular/cache
 LICENSE
 README.md
 !**/.gitignore

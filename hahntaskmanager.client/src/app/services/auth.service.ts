@@ -9,7 +9,7 @@ import { UserDto } from '../models/user';
   providedIn: 'root'
 })
 export class AuthService {
-  private readonly baseUrl = 'https://localhost:5001/api';
+  private readonly baseUrl = 'http://localhost:5000/api';
   private readonly tokenKey = 'auth_token';
   private readonly userKey = 'current_user';
   private jwtHelper = new JwtHelperService();

@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: HahnTaskManager.Api/Dockerfile
+    ports:
+      - "5000:5000"
+    environment:
+      - ASPNETCORE_URLS=http://+:5000
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserver,1433;Database=HahnDb;User Id=sa;Password=Admin@123;Encrypt=False;TrustServerCertificate=True;
+    depends_on:
+      - sqlserver
+
+  client:
+    build:
+      context: .
+      dockerfile: hahntaskmanager.client/Dockerfile
+    ports:
+      - "4200:4200"
+    volumes:
+      - ./hahntaskmanager.client:/app
+      - /app/node_modules
+
+
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    environment:
+      SA_PASSWORD: "Admin@123"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlvolume:/var/opt/mssql
+
+volumes:
+  sqlvolume:
